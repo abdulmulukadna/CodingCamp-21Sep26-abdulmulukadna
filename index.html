@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker & Budget Visualizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="container header-content">
+            <div>
+                <h1>💰 Expense Tracker</h1>
+                <p>Track your spending effortlessly</p>
+            </div>
+            <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle dark mode">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <div class="left-column">
+            <!-- Add Transaction Form -->
+            <section class="form-section">
+                <h2>Add Transaction</h2>
+                <div id="form-message-container" role="alert" aria-live="polite" class="message-container hidden"></div>
+                
+                <form id="transaction-form" novalidate>
+                    <div class="form-group">
+                        <label for="name">Transaction Name <span class="required" aria-label="required">*</span></label>
+                        <input type="text" id="name" name="name" maxlength="100" required aria-describedby="name-error">
+                        <span id="name-error" class="field-error" aria-live="polite"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount ($) <span class="required" aria-label="required">*</span></label>
+                        <input type="number" id="amount" name="amount" step="0.01" min="0.01" max="999999.99" required aria-describedby="amount-error">
+                        <span id="amount-error" class="field-error" aria-live="polite"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category <span class="required" aria-label="required">*</span></label>
+                        <select id="category" name="category" required aria-describedby="category-error">
+                            <option value="" disabled selected>Select a category</option>
+                            <!-- Dynamic options -->
+                        </select>
+                        <span id="category-error" class="field-error" aria-live="polite"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Expense</button>
+                </form>
+            </section>
+
+            <!-- Manage Custom Categories -->
+            <section class="category-section">
+                <h2>Manage Categories</h2>
+                <form id="category-form" class="category-form">
+                    <input type="text" id="new-category-name" placeholder="New category name" required>
+                    <input type="text" id="new-category-icon" placeholder="Icon (e.g. ☕)" maxlength="2" required style="width: 80px;">
+                    <button type="submit" class="btn btn-secondary">Add</button>
+                </form>
+                <div id="category-list" class="category-list">
+                    <!-- Dynamic categories list -->
+                </div>
+            </section>
+        </div>
+
+        <div class="right-column dashboard-and-list">
+            <!-- Dashboard Section -->
+            <section class="dashboard-section grid-2-col">
+                <div class="balance-card">
+                    <h2>Total Expenses</h2>
+                    <div id="total-balance" class="balance-amount" aria-live="polite">$0.00</div>
+                    
+                    <div class="budget-setting">
+                        <label for="budget-limit">Budget Limit ($):</label>
+                        <input type="number" id="budget-limit" step="10" min="0" placeholder="0 = No limit">
+                    </div>
+                    <div id="budget-warning" class="warning-text hidden">⚠️ You have exceeded your budget!</div>
+                </div>
+
+                <div class="monthly-summary-card">
+                    <h2>Monthly Summary</h2>
+                    <div id="monthly-summary-list" class="monthly-list">
+                        <!-- Dynamic Monthly Summary -->
+                    </div>
+                </div>
+
+                <div class="chart-card col-span-2">
+                    <h2>Spending by Category</h2>
+                    <div class="chart-container">
+                        <canvas id="expense-chart" role="img" aria-label="Expense categories chart"></canvas>
+                        <div id="chart-empty-message" class="empty-message hidden">No data to display</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transaction List -->
+            <section class="transaction-list-section">
+                <h2>Transaction History</h2>
+                <div id="transaction-list" class="transaction-list" role="list" aria-live="polite">
+                    <!-- Transactions will be injected here -->
+                    <div class="empty-state">No transactions yet. Add one above!</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="container">
+            <p>&copy; 2026 Expense Tracker MVP. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- App Logic -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
